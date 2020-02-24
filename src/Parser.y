@@ -36,8 +36,9 @@ import Lexer
 
 %%
 
-Exp   : let var '=' Exp in Exp  { Let $2 $4 $6 }
-      | Exp1                    { Exp1 $1 }
+Exp   : fun var '=' let var '=' Exp in Exp { Fun $2 (Let $5 $7 $9) }
+      | let var '=' Exp in Exp             { Let $2 $4 $6 }
+      | Exp1                               { Exp1 $1 }
 
 Exp1  : Exp1 '+' Term           { Plus $1 $3 }
       | Exp1 '-' Term           { Minus $1 $3 }

@@ -3,9 +3,10 @@ module Language where
 -- This example comes straight from the happy documentation
 
 data Exp  
-      = Let String Exp Exp
-      | Exp1 Exp1
-      deriving Show
+  = Fun String Exp
+  | Let String Exp Exp
+  | Exp1 Exp1
+  deriving Show
 
 data Exp1 
       = Plus Exp1 Term 

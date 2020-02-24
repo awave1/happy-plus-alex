@@ -11,4 +11,4 @@ main = do
               []  -> fmap (parseExp "<stdin>") getContents
               [f] -> fmap (parseExp f) (readFile f)
               _   -> error "expected max. 1 argument"
-  either putStrLn (print . eval []) result
+  either putStrLn (print) result

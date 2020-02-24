@@ -26,11 +26,11 @@ tokens :-
   $eol                                  ;
   fun                                   { lex' TokenFun }
   let                                   { lex' TokenLet         }
-  where                                 { lex' TokenWhere         }
+  where                                 { lex' TokenWhere       }
   in                                    { lex' TokenIn          }
   $digit+                               { lex (TokenInt . read) }
   $alpha [$alpha $digit \_ \']*         { lex  TokenVar         }
-  \;                                    { lex' TokenSemi }
+  \;                                    { lex' TokenSemi        }
   \=                                    { lex' TokenEq          }
   \+                                    { lex' TokenPlus        }
   \-                                    { lex' TokenMinus       }
