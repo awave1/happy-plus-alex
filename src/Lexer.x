@@ -31,6 +31,7 @@ tokens :-
   $digit+                               { lex (TokenInt . read) }
   $alpha [$alpha $digit \_ \']*         { lex  TokenVar         }
   \;                                    { lex' TokenSemi        }
+  \,                                    { lex' TokenComma       }
   \=                                    { lex' TokenEq          }
   \+                                    { lex' TokenPlus        }
   \-                                    { lex' TokenMinus       }
@@ -72,6 +73,7 @@ data TokenClass
   | TokenLParen
   | TokenRParen
   | TokenSemi
+  | TokenComma
   | TokenEOF
   deriving ( Show )
 
@@ -91,6 +93,7 @@ unLex TokenDiv = "/"
 unLex TokenLParen = "("
 unLex TokenRParen = ")"
 unLex TokenSemi = ";"
+unLex TokenComma = ","
 unLex TokenEOF = "<EOF>"
 
 alexEOF :: Alex Token

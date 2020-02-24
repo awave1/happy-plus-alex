@@ -33,12 +33,21 @@ import Lexer
       '('             { Token _ TokenLParen }
       ')'             { Token _ TokenRParen }
       ';'             { Token _ TokenSemi }
+      ','             { Token _ TokenComma }
 
 %%
 
-Exp   : fun var '=' let var '=' Exp in Exp { Fun $2 (Let $5 $7 $9) }
+Exp   : fun var Params '=' let var '=' Exp in Exp { Fun $2 (Let $6 $8 $10) }
       | let var '=' Exp in Exp             { Let $2 $4 $6 }
       | Exp1                               { Exp1 $1 }
+
+Params: '(' ')'                       { [] }
+      | '(' Params_ ')'               { $2 }
+
+Params_: Param             { [$1] }
+       | Params_ ',' Param { $3:$1 }
+
+Param: var { $1 }
 
 Exp1  : Exp1 '+' Term           { Plus $1 $3 }
       | Exp1 '-' Term           { Minus $1 $3 }
