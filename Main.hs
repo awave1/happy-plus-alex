@@ -1,6 +1,6 @@
 module Main(main) where
 
-import Language ( eval )
+import Language
 import Parser ( parseExp )
 import System.Environment ( getArgs )
 
@@ -11,4 +11,5 @@ main = do
               []  -> fmap (parseExp "<stdin>") getContents
               [f] -> fmap (parseExp f) (readFile f)
               _   -> error "expected max. 1 argument"
-  either putStrLn (print) result
+  either putStrLn print result
+

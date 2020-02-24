@@ -3,8 +3,9 @@ module Language where
 -- This example comes straight from the happy documentation
 
 data Exp  
-  = Fun String Exp
+  = Fun String [Factor] Exp
   | Let String Exp Exp
+  | Where Exp String Exp
   | Exp1 Exp1
   deriving Show
 
