@@ -19,6 +19,8 @@ import Lexer
 %error { happyError }
 
 %token 
+      fun             { Token _ TokenFun }
+      where           { Token _ TokenWhere }
       let             { Token _ TokenLet }
       in              { Token _ TokenIn }
       int             { Token _ (TokenInt $$) }
@@ -30,6 +32,7 @@ import Lexer
       '/'             { Token _ TokenDiv }
       '('             { Token _ TokenLParen }
       ')'             { Token _ TokenRParen }
+      ';'             { Token _ TokenSemi }
 
 %%
 

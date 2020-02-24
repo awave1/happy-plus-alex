@@ -17,16 +17,20 @@ import Control.Monad ( liftM )
 
 %wrapper "monadUserState"
 
-$digit = 0-9
+$digit = [0-9]
 $alpha = [A-Za-z]
+$eol   = [\n]
 
 tokens :-
   $white+                               ;
-  "--".*                                ;
+  $eol                                  ;
+  fun                                   { lex' TokenFun }
   let                                   { lex' TokenLet         }
+  where                                 { lex' TokenWhere         }
   in                                    { lex' TokenIn          }
   $digit+                               { lex (TokenInt . read) }
   $alpha [$alpha $digit \_ \']*         { lex  TokenVar         }
+  \;                                    { lex' TokenSemi }
   \=                                    { lex' TokenEq          }
   \+                                    { lex' TokenPlus        }
   \-                                    { lex' TokenMinus       }
@@ -54,7 +58,9 @@ data Token = Token AlexPosn TokenClass
   deriving ( Show )
 
 data TokenClass
-  = TokenLet
+  = TokenFun
+  | TokenLet
+  | TokenWhere
   | TokenIn
   | TokenInt Int
   | TokenVar String
@@ -65,11 +71,14 @@ data TokenClass
   | TokenDiv
   | TokenLParen
   | TokenRParen
+  | TokenSemi
   | TokenEOF
   deriving ( Show )
 
 -- For nice parser error messages.
 unLex :: TokenClass -> String
+unLex TokenFun = "fun"
+unLex TokenWhere = "where"
 unLex TokenLet = "let"
 unLex TokenIn = "in"
 unLex (TokenInt i) = show i
@@ -81,6 +90,7 @@ unLex TokenTimes = "*"
 unLex TokenDiv = "/"
 unLex TokenLParen = "("
 unLex TokenRParen = ")"
+unLex TokenSemi = ";"
 unLex TokenEOF = "<EOF>"
 
 alexEOF :: Alex Token
